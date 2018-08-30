@@ -1,2 +1,2 @@
 [report]
-omit = *ch4*, *api/migration*, *virtualenv*
+omit = *ch4*, *api/migration*, *virtualenv*, *cp4*

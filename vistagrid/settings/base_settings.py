@@ -15,6 +15,7 @@ import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
   'django.contrib.messages',
   'django.contrib.staticfiles',
   'vistagrid',
-  'social.apps.django_app.default',
   'app',
   'rest_framework',
 ]
@@ -85,14 +85,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   'django.core.context_processors.static',
   'django.core.context_processors.tz',
   'django.contrib.messages.context_processors.messages',
-  'social.apps.django_app.context_processors.backends',
-  'social.apps.django_app.context_processors.login_redirect',
 )
 
 AUTHENTICATION_BACKENDS = (
-  'social.backends.facebook.FacebookOAuth2',
-  'social.backends.google.GoogleOAuth2',
-  'social.backends.twitter.TwitterOAuth',
   'django.contrib.auth.backends.ModelBackend',
 )
 

@@ -21,12 +21,8 @@ from django.conf import settings
 from app import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
     url(r'^api/', include('app.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url('', include('django.contrib.auth.urls', namespace='auth')),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

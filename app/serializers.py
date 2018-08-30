@@ -1,6 +1,17 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from .models import Photo, Preview, PhotoEdit
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializes the User model.
+    """
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password',)
+        extra_kwargs = {'password': {'write_only': True}}
 
 
 class PreviewSerializer(serializers.ModelSerializer):

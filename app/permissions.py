@@ -19,3 +19,13 @@ class IsEditOwner(permissions.BasePermission):
         """Method to check if incoming 'request' is from the owner of the obj.
         """
         return obj.photo.owner == request.user
+
+
+class IsUserOwner(permissions.BasePermission):
+    """Permissions restricting photo edit access to owners of the photos.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        """Method to check if incoming 'request' is from the owner of the obj.
+        """
+        return obj.id == request.user.id

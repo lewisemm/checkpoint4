@@ -4,15 +4,42 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.core.files import File
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.contrib.auth.models import User
 
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 
 from faker import Factory
 
-from .serializers import PhotoSerializer, PreviewSerializer, PhotoEditSerializer
+from .serializers import (
+    PhotoSerializer, PreviewSerializer, PhotoEditSerializer, UserSerializer
+    )
 from .models import Photo, Preview, FILTERS, PhotoEdit
-from .permissions import IsOwner, IsEditOwner
+from .permissions import IsOwner, IsEditOwner, IsUserOwner
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    Handle CRUD requests to '/api/users/' url.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsUserOwner, )
+
+    def create(self, request):
+        """
+        Override the create user functionality to ensure passwords are hashed
+        via the set_password method.
+        """
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user = User.objects.create_user(
+                request.data['username'], password=request.data['password'])
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PreviewViewSet(viewsets.ModelViewSet):
